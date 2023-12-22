@@ -5,6 +5,7 @@ import hello.practice.dto.CreateCommentRequestDto;
 import hello.practice.dto.UpdateCommentRequestDto;
 import hello.practice.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,5 +34,10 @@ public class CommentController {
     @PutMapping("/{id}")
     public CommentResponseDto updateComment(@PathVariable Long id, @RequestBody UpdateCommentRequestDto requestDto) {
         return commentService.updateComment(id, requestDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteComment(@PathVariable Long id) {
+        commentService.deleteComment(id);
     }
 }

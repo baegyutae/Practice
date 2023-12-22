@@ -41,4 +41,8 @@ public class CommentService {
         return new CommentResponseDto(comment.getId(), comment.getPostId(), comment.getContent());
     }
 
+    public void deleteComment(Long id) {
+        commentRepository.deleteById(id);
+    }
+
 }
