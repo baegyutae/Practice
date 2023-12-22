@@ -4,6 +4,7 @@ import hello.practice.dto.CommentResponseDto;
 import hello.practice.dto.CreateCommentRequestDto;
 import hello.practice.dto.UpdateCommentRequestDto;
 import hello.practice.service.CommentService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,11 @@ public class CommentController {
     @PostMapping
     public CommentResponseDto createComment(@RequestBody CreateCommentRequestDto requestDto) {
         return commentService.createComment(requestDto);
+    }
+
+    @GetMapping("/post/{postId}")
+    public List<CommentResponseDto> getCommentsByPostId(@PathVariable Long postId) {
+        return commentService.getAllCommentsByPostId(postId);
     }
 
     @GetMapping("/{id}")

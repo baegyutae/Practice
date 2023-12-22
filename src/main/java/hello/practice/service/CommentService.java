@@ -5,6 +5,8 @@ import hello.practice.dto.CreateCommentRequestDto;
 import hello.practice.dto.UpdateCommentRequestDto;
 import hello.practice.entity.Comment;
 import hello.practice.repository.CommentRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,12 @@ public class CommentService {
             .build();
         comment = commentRepository.save(comment);
         return new CommentResponseDto(comment.getId(), comment.getPostId(), comment.getContent());
+    }
+
+    public List<CommentResponseDto> getAllCommentsByPostId(Long postId) {
+        return commentRepository.findAllByPostId(postId).stream()
+            .map(comment -> new CommentResponseDto(comment.getId(), comment.getPostId(), comment.getContent()))
+            .collect(Collectors.toList());
     }
 
     public CommentResponseDto getCommentById(Long id) {
@@ -44,5 +52,4 @@ public class CommentService {
     public void deleteComment(Long id) {
         commentRepository.deleteById(id);
     }
-
 }
