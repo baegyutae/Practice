@@ -1,13 +1,15 @@
 package hello.practice.controller;
 
 import hello.practice.dto.CreatePostRequestDto;
-import hello.practice.dto.PostResponse;
+import hello.practice.dto.PostResponseDto;
+import hello.practice.dto.UpdatePostRequestDto;
 import hello.practice.service.PostService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,17 +22,22 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public PostResponse createPost(@RequestBody CreatePostRequestDto requestDto) {
+    public PostResponseDto createPost(@RequestBody CreatePostRequestDto requestDto) {
         return postService.createPost(requestDto);
     }
 
     @GetMapping
-    public List<PostResponse> getAllPosts() {
+    public List<PostResponseDto> getAllPosts() {
         return postService.getAllPosts();
     }
 
     @GetMapping("/{id}")
-    public PostResponse getPostById(@PathVariable Long id) {
+    public PostResponseDto getPostById(@PathVariable Long id) {
         return postService.getPostById(id);
+    }
+
+    @PutMapping("/{id}")
+    public PostResponseDto updatePost(@PathVariable Long id, @RequestBody UpdatePostRequestDto requestDto) {
+        return postService.updatePost(id, requestDto);
     }
 }
