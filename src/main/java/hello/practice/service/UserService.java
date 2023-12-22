@@ -17,6 +17,7 @@ public class UserService {
     public void signup(SignUpRequestDto requestDto) {
         validateUsername(requestDto.username());
         validatePassword(requestDto.username(), requestDto.password());
+        confirmPasswords(requestDto.password(), requestDto.confirmPassword());
 
 
         User user = User.builder()
@@ -36,6 +37,12 @@ public class UserService {
     private void validatePassword(String username, String password) {
         if (password.length() < 4 || password.contains(username)) {
             throw new IllegalArgumentException("잘못된 비밀번호 입니다.");
+        }
+    }
+
+    private void confirmPasswords(String password, String confirmPassword) {
+        if (!password.equals(confirmPassword)) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
     }
 
