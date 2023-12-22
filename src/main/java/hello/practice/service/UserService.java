@@ -15,6 +15,10 @@ public class UserService {
     private final UserRepository userRepository;
 
     public void signup(SignUpRequestDto requestDto) {
+        validateUsername(requestDto.username());
+        validatePassword(requestDto.username(), requestDto.password());
+
+
         User user = User.builder()
             .username(requestDto.username())
             .password(requestDto.password())
@@ -25,7 +29,13 @@ public class UserService {
 
     private void validateUsername(String username) {
         if (username.length() < 3 || !username.matches("^[a-zA-Z0-9]+$")) {
-            throw new IllegalArgumentException("Invalid username");
+            throw new IllegalArgumentException("잘못된 사용자 이름 입니다.");
+        }
+    }
+
+    private void validatePassword(String username, String password) {
+        if (password.length() < 4 || password.contains(username)) {
+            throw new IllegalArgumentException("잘못된 비밀번호 입니다.");
         }
     }
 
