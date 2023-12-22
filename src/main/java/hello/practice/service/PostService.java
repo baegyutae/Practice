@@ -26,4 +26,9 @@ public class PostService {
             .collect(Collectors.toList());
     }
 
+    public PostResponse getPostById(Long id) {
+        Post post = postRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("게시물을 찾을 수 없습니다."));
+        return new PostResponse(post.getId(), post.getTitle(), post.getContent());
+    }
 }
