@@ -33,17 +33,17 @@ public class CommentService {
 
     public CommentResponseDto getCommentById(Long id) {
         Comment comment = commentRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Comment not found"));
+            .orElseThrow(() -> new RuntimeException("댓글을 찾을 수 없습니다."));
         return new CommentResponseDto(comment.getId(), comment.getPostId(), comment.getContent());
     }
 
-    public CommentResponseDto updateComment(Long id, UpdateCommentRequestDto request) {
+    public CommentResponseDto updateComment(Long id, UpdateCommentRequestDto requestDto) {
         Comment comment = commentRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Comment not found"));
+            .orElseThrow(() -> new RuntimeException("댓글을 찾을 수 없습니다."));
         comment = Comment.builder()
             .id(comment.getId())
             .postId(comment.getPostId())
-            .content(request.content())
+            .content(requestDto.content())
             .build();
         commentRepository.save(comment);
         return new CommentResponseDto(comment.getId(), comment.getPostId(), comment.getContent());

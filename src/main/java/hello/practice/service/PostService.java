@@ -39,16 +39,15 @@ public class PostService {
     public PostResponseDto updatePost(Long id, UpdatePostRequestDto requestDto) {
         Post post = postRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("게시물을 찾을 수 없습니다."));
-
-        Post updatedPost = Post.builder()
+        post = Post.builder()
+            .id(post.getId())
             .title(requestDto.title())
             .content(requestDto.content())
             .build();
+        postRepository.save(post);
 
-        postRepository.save(updatedPost);
-
-        return new PostResponseDto(updatedPost.getId(), updatedPost.getTitle(),
-            updatedPost.getContent());
+        return new PostResponseDto(post.getId(), post.getTitle(),
+            post.getContent());
     }
 
     public void deletePost(Long id) {
