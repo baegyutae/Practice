@@ -23,6 +23,12 @@ public class UserService {
         userRepository.save(user);
     }
 
+    private void validateUsername(String username) {
+        if (username.length() < 3 || !username.matches("^[a-zA-Z0-9]+$")) {
+            throw new IllegalArgumentException("Invalid username");
+        }
+    }
+
     public boolean login(LoginRequestDto requestDto) {
         Optional<User> userOptional = userRepository.findByUsername(requestDto.username());
         if (userOptional.isPresent() && userOptional.get().getPassword()
