@@ -1,6 +1,7 @@
 package hello.practice.controller;
 
 import hello.practice.dto.CreateUserRequestDto;
+import hello.practice.dto.LoginRequestDto;
 import hello.practice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,4 +21,13 @@ public class UserController {
         userService.signup(requestDto);
     }
 
+    @PostMapping("/login")
+    public String login(@RequestBody LoginRequestDto requestDto) {
+        boolean loginSuccess = userService.login(requestDto);
+        if (loginSuccess) {
+            return "로그인 성공";
+        } else {
+            return "로그인 실패";
+        }
+    }
 }

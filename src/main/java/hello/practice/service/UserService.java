@@ -1,8 +1,10 @@
 package hello.practice.service;
 
 import hello.practice.dto.CreateUserRequestDto;
+import hello.practice.dto.LoginRequestDto;
 import hello.practice.entity.User;
 import hello.practice.repository.UserRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,4 +23,12 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public boolean login(LoginRequestDto requestDto) {
+        Optional<User> userOptional = userRepository.findByUsername(requestDto.username());
+        if (userOptional.isPresent() && userOptional.get().getPassword()
+            .equals(requestDto.password())) {
+            return true; // 로그인 성공
+        }
+        return false; // 로그인 실패
+    }
 }
