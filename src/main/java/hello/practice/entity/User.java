@@ -15,14 +15,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "comment")
-public class Comment {
+@Table(name = "user")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long postId; // 게시글 ID
+    private String username;
+    private String password;
+    private String email;
 
-    private String content;
 }
