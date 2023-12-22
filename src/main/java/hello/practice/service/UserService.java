@@ -1,7 +1,7 @@
 package hello.practice.service;
 
-import hello.practice.dto.CreateUserRequestDto;
 import hello.practice.dto.LoginRequestDto;
+import hello.practice.dto.SignUpRequestDto;
 import hello.practice.entity.User;
 import hello.practice.repository.UserRepository;
 import java.util.Optional;
@@ -14,7 +14,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public void signup(CreateUserRequestDto requestDto) {
+    public void signup(SignUpRequestDto requestDto) {
         User user = User.builder()
             .username(requestDto.username())
             .password(requestDto.password())
