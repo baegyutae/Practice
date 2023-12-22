@@ -19,7 +19,7 @@ public class UserController {
     @PostMapping("/signup")
     public String signup(@RequestBody SignUpRequestDto requestDto) {
         userService.signup(requestDto);
-        return "Signup successful";
+        return "회원가입 완료";
     }
 
     @PostMapping("/login")

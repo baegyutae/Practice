@@ -15,10 +15,10 @@ public class UserService {
     private final UserRepository userRepository;
 
     public void signup(SignUpRequestDto requestDto) {
+        checkUsernameExists(requestDto.username());
         validateUsername(requestDto.username());
         validatePassword(requestDto.username(), requestDto.password());
         confirmPasswords(requestDto.password(), requestDto.confirmPassword());
-
 
         User user = User.builder()
             .username(requestDto.username())
@@ -26,6 +26,12 @@ public class UserService {
             .email(requestDto.email())
             .build();
         userRepository.save(user);
+    }
+
+    private void checkUsernameExists(String username) {
+        if (userRepository.findByUsername(username).isPresent()) {
+            throw new IllegalArgumentException("중복된 닉네임입니다.");
+        }
     }
 
     private void validateUsername(String username) {
