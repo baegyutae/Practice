@@ -47,4 +47,8 @@ public class PostService {
         return new PostResponseDto(updatedPost.getId(), updatedPost.getTitle(),
             updatedPost.getContent());
     }
+
+    public void deletePost(Long id) {
+        postRepository.deleteById(id);
+    }
 }
