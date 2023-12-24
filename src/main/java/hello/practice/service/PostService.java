@@ -18,9 +18,10 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    public PostResponseDto createPost(CreatePostRequestDto requestDto) {
+    public PostResponseDto createPost(CreatePostRequestDto requestDto, String username) {
         Post post = postRepository.save(Post.builder()
             .title(requestDto.title())
+            .nickname(username)
             .content(requestDto.content())
             .build());
         return new PostResponseDto(post.getId(),post.getTitle(),post.getNickname(), post.getContent(), post.getCreatedAt());
