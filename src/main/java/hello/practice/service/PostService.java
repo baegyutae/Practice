@@ -6,6 +6,7 @@ import hello.practice.dto.UpdatePostRequestDto;
 import hello.practice.entity.Post;
 import hello.practice.repository.PostRepository;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -35,10 +36,9 @@ public class PostService {
             .collect(Collectors.toList());
     }
 
-    public PostResponseDto getPostById(Long id) {
-        Post post = postRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("게시물을 찾을 수 없습니다."));
-        return new PostResponseDto(post.getId(),post.getTitle(),post.getNickname(), post.getContent(), post.getCreatedAt());
+    public Optional<PostResponseDto> getPostById(Long id) {
+        return postRepository.findById(id)
+            .map(post -> new PostResponseDto(post.getId(), post.getTitle(), post.getNickname(), post.getContent(), post.getCreatedAt()));
     }
 
     public PostResponseDto updatePost(Long id, UpdatePostRequestDto requestDto) {
