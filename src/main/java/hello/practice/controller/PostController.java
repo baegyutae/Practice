@@ -6,6 +6,7 @@ import hello.practice.dto.UpdatePostRequestDto;
 import hello.practice.service.JwtService;
 import hello.practice.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class PostController {
     private final JwtService jwtService;
 
     @PostMapping
-    public ResponseEntity<?> createPost(@RequestBody CreatePostRequestDto createPostRequestDto, HttpServletRequest request) {
+    public ResponseEntity<?> createPost(@Valid @RequestBody CreatePostRequestDto createPostRequestDto, HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         if (token == null || token.isEmpty()) {
             return ResponseEntity.status(403).body("Access Denied: No Token Provided");
