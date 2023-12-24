@@ -57,8 +57,21 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public PostResponseDto updatePost(@PathVariable Long id, @RequestBody UpdatePostRequestDto requestDto) {
-        return postService.updatePost(id, requestDto);
+    public ResponseEntity<?> updatePost(@PathVariable Long id,
+        @RequestBody UpdatePostRequestDto requestDto,
+        HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if (token == null || token.isEmpty()) {
+            return ResponseEntity.status(403).body("Access Denied: No Token Provided");
+        }
+
+        try {
+            String username = jwtService.validateTokenAndGetUsername(token);
+            postService.updatePost(id, requestDto, username);
+            return ResponseEntity.ok().body("게시글이 성공적으로 수정되었습니다.");
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(403).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")

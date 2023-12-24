@@ -41,17 +41,13 @@ public class PostService {
             .map(post -> new PostResponseDto(post.getId(), post.getTitle(), post.getNickname(), post.getContent(), post.getCreatedAt()));
     }
 
-    public PostResponseDto updatePost(Long id, UpdatePostRequestDto requestDto) {
+    public void updatePost(Long id, UpdatePostRequestDto requestDto, String username) {
         Post post = postRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("게시물을 찾을 수 없습니다."));
-        post = Post.builder()
-            .id(post.getId())
-            .title(requestDto.title())
-            .content(requestDto.content())
-            .build();
-        postRepository.save(post);
+            .orElseThrow(() -> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
 
-        return new PostResponseDto(post.getId(),post.getTitle(),post.getNickname(), post.getContent(), post.getCreatedAt());
+        if (!post.getNickname().equals(username)) {
+            throw new IllegalStateException("수정 권한이 없습니다.");
+        }
     }
 
     public void deletePost(Long id) {
