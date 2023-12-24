@@ -1,5 +1,7 @@
 package hello.practice.dto;
 
-public record PostResponseDto(Long id, String title, String content) {
+import java.time.LocalDateTime;
+
+public record PostResponseDto(Long id, String title, String nickname, String content, LocalDateTime careatedAt) {
 
 }

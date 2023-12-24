@@ -8,6 +8,8 @@ import hello.practice.repository.PostRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,19 +23,21 @@ public class PostService {
             .title(requestDto.title())
             .content(requestDto.content())
             .build());
-        return new PostResponseDto(post.getId(), post.getTitle(), post.getContent());
+        return new PostResponseDto(post.getId(),post.getTitle(),post.getNickname(), post.getContent(), post.getCreatedAt());
     }
 
-    public List<PostResponseDto> getAllPosts() {
-        return postRepository.findAll().stream()
-            .map(post -> new PostResponseDto(post.getId(), post.getTitle(), post.getContent()))
+    public List<PostResponseDto> getAllPostsSortedByCreatedAtDesc() {
+        // createdAt 기준 내림차순 정렬 적용
+        List<Post> posts = postRepository.findAll(Sort.by(Direction.DESC, "createdAt"));
+        return posts.stream()
+            .map(post -> new PostResponseDto(post.getId(), post.getTitle(), post.getNickname(), post.getContent(), post.getCreatedAt()))
             .collect(Collectors.toList());
     }
 
     public PostResponseDto getPostById(Long id) {
         Post post = postRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("게시물을 찾을 수 없습니다."));
-        return new PostResponseDto(post.getId(), post.getTitle(), post.getContent());
+        return new PostResponseDto(post.getId(),post.getTitle(),post.getNickname(), post.getContent(), post.getCreatedAt());
     }
 
     public PostResponseDto updatePost(Long id, UpdatePostRequestDto requestDto) {
@@ -46,8 +50,7 @@ public class PostService {
             .build();
         postRepository.save(post);
 
-        return new PostResponseDto(post.getId(), post.getTitle(),
-            post.getContent());
+        return new PostResponseDto(post.getId(),post.getTitle(),post.getNickname(), post.getContent(), post.getCreatedAt());
     }
 
     public void deletePost(Long id) {

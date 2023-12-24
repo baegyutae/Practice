@@ -29,7 +29,7 @@ public class PostController {
 
     @GetMapping
     public List<PostResponseDto> getAllPosts() {
-        return postService.getAllPosts();
+        return postService.getAllPostsSortedByCreatedAtDesc(); // 정렬된 게시글 목록 반환
     }
 
     @GetMapping("/{id}")
